@@ -2,9 +2,23 @@ part of 'login_bloc.dart';
 
 @freezed
 class LoginState with _$LoginState {
-  const factory LoginState.initial() = _LoginStateInitial;
+  const factory LoginState({
+    @Default(false) bool isLoading,
+    UserModel? userData,
+    Failure? userError,
+  }) = _LoginState;
 
-  const factory LoginState.userDataLoading() = _UserDataLoading;
-  const factory LoginState.userDataSuccess(UserModel data) = _UserDataResource;
-  const factory LoginState.userDataFailed(Failure error) = _UserDataFailed;
+  factory LoginState.initial() => const LoginState(isLoading: false);
+
+  factory LoginState.loading() => const LoginState(isLoading: true);
+
+  factory LoginState.success(UserModel data) => LoginState(
+        isLoading: false,
+        userData: data,
+      );
+
+  factory LoginState.failed(Failure error) => LoginState(
+        isLoading: false,
+        userError: error,
+      );
 }

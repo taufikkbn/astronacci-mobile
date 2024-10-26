@@ -18,7 +18,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginBloc({
     required this.loginUseCase,
-  }) : super(const LoginState.initial()) {
+  }) : super(LoginState.initial()) {
     on<LoginEvent>(_onLoginEvent);
   }
 
@@ -37,32 +37,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     String password,
     Emitter<LoginState> emit,
   ) async {
-    emit(const LoginState.userDataLoading());
+    emit(LoginState.loading());
     final result = await loginUseCase(username, password, 1);
     result.when(
       success: (data) {
-        emit(LoginState.userDataSuccess(data));
+        emit(LoginState.success(data));
       },
       failed: (e) {
-        emit(LoginState.userDataFailed(e));
+        emit(LoginState.failed(e));
       },
     );
   }
 
-  void _test() async {
-    log("Start: ${DateTime.now()}");
-    final result = await Future.wait([
-      _task(1),
-      _task(2),
-      _task(3),
-      _task(4),
-    ]);
-    log("End: ${DateTime.now()}");
-    log("Result: $result");
-  }
-
-  Future<int> _task(int sec) async {
-    await Future.delayed(Duration(seconds: sec));
-    return sec;
-  }
 }

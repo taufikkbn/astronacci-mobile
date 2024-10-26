@@ -16,36 +16,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc({
     required this.getUserUseCase,
-  }) : super(const HomeState.initial()) {
+  }) : super(HomeState.initial()) {
     on<_Initial>(_initial);
   }
 
   Future<void> _initial(HomeEvent event, Emitter<HomeState> emit) async {
-    emit(const HomeState.userDataLoading());
+    emit(HomeState.userDataLoading());
     final result = await getUserUseCase();
     result.when(
-      success: (data) {
-        emit(HomeState.userDataSuccess(data));
-      },
-      failed: (e) {
-        emit(HomeState.userDataFailed(e));
-      },
-    );
-
-    emit(const HomeState.userDataLoading());
-    final result1 = await getUserUseCase();
-    result1.when(
-      success: (data) {
-        emit(HomeState.userDataSuccess(data));
-      },
-      failed: (e) {
-        emit(HomeState.userDataFailed(e));
-      },
-    );
-
-    emit(const HomeState.userDataLoading());
-    final result2 = await getUserUseCase();
-    result2.when(
       success: (data) {
         emit(HomeState.userDataSuccess(data));
       },

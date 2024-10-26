@@ -2,13 +2,12 @@ import 'package:base_flutter_bloc/presentation/screens/login/bloc/login_bloc.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:synchronized/extension.dart';
 
 import '../../../../core/utils/di/injector.dart';
 import '../../../app/go_routes.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   static Widget screen(BuildContext context, GoRouterState state) {
     return MultiBlocProvider(
@@ -49,19 +48,16 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 24),
             BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-              return state.when(
-                initial: () => const SizedBox(),
-                userDataLoading: () => const CircularProgressIndicator(),
-                userDataSuccess: (data) => Text(data.username!),
-                userDataFailed: (error) => Text(error.message),
-              );
+              if (state.isLoading) return const CircularProgressIndicator();
+              if (state.userData != null) return Text(state.userData?.username ?? '');
+              if (state.userError != null) return Text(state.userError!.message);
+              return const SizedBox();
             }),
             BlocListener<LoginBloc, LoginState>(
               listener: (context, state) {
-                state.whenOrNull(userDataSuccess: (data) {
+                if (state.userData != null) {
                   context.pushNamed(Routes.home);
-                  // context.goNamed(Routes.home);
-                });
+                }
               },
               child: ElevatedButton(
                 onPressed: () {

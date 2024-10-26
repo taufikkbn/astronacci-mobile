@@ -52,12 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: BlocBuilder<HomeBloc, HomeState>(
                       builder: (context, state) {
-                        return state.maybeWhen(
-                          userDataLoading: () => const CircularProgressIndicator(),
-                          userDataSuccess: (data) => Text(data.username!),
-                          userDataFailed: (error) => Text(error.message),
-                          orElse: () => const SizedBox.shrink(),
-                        );
+                        if (state.isLoading) return const CircularProgressIndicator();
+                        if (state.userData != null) return Text(state.userData?.username ?? '');
+                        if (state.userError != null) return Text(state.userError!.message);
+                        return const SizedBox();
                       },
                     ),
                   ),

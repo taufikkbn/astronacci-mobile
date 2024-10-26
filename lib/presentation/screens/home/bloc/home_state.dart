@@ -2,12 +2,23 @@ part of 'home_bloc.dart';
 
 @freezed
 class HomeState with _$HomeState {
-  const factory HomeState.initial() = _HomeStateInitial;
+  const factory HomeState({
+    @Default(false) bool isLoading,
+    UserModel? userData,
+    Failure? userError,
+  }) = _HomeState;
 
-  const factory HomeState.userDataLoading() = _UserDataLoading;
+  factory HomeState.initial() => const HomeState(isLoading: false);
 
-  const factory HomeState.userDataSuccess(UserModel data) = _UserDataSuccess;
+  factory HomeState.userDataLoading() => const HomeState(isLoading: true);
 
-  const factory HomeState.userDataFailed(Failure error) = _UserDataFailed;
+  factory HomeState.userDataSuccess(UserModel data) => HomeState(
+        isLoading: false,
+        userData: data,
+      );
 
+  factory HomeState.userDataFailed(Failure error) => HomeState(
+        isLoading: false,
+        userError: error,
+      );
 }
