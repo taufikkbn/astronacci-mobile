@@ -9,11 +9,10 @@ class LoginUseCase {
 
   LoginUseCase(this._authRepository);
 
-  DataResult<UserModel> call(String username, String password, int time) async {
+  DataResult<UserModel> call(String email, String password) async {
     final request = LoginRequest(
-      username: username,
+      email: email,
       password: password,
-      expiresInMins: time.toString(),
     );
     return await _authRepository.login(request);
   }

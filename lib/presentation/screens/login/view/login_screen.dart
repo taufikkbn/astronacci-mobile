@@ -23,9 +23,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _usernameController = TextEditingController()..text = 'emilys';
+  final _usernameController = TextEditingController()..text = 'opik@mailnesia.com';
 
-  final _passwordController = TextEditingController()..text = 'emilyspass';
+  final _passwordController = TextEditingController()..text = '123456';
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             TextFormField(
               controller: _usernameController,
-              decoration: const InputDecoration(labelText: 'Username'),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -49,10 +49,18 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 24),
             BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
               if (state.isLoading) return const CircularProgressIndicator();
-              if (state.userData != null) return Text(state.userData?.username ?? '');
+              // if (state.userData != null) return Text(state.userData?.username ?? '');
               if (state.userError != null) return Text(state.userError!.message);
               return const SizedBox();
             }),
+            const SizedBox(height: 24),
+            InkWell(
+              onTap: () {
+                context.pushNamed(Routes.forgot);
+              },
+              child: const Text('Forgot your password?'),
+            ),
+            const SizedBox(height: 24),
             BlocListener<LoginBloc, LoginState>(
               listener: (context, state) {
                 if (state.userData != null) {
@@ -70,6 +78,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 child: const Text('Login'),
               ),
+            ),
+            const SizedBox(height: 24),
+            InkWell(
+              onTap: () {
+                context.pushNamed(Routes.register);
+              },
+              child: const Text('Not have account, register here?'),
             ),
           ],
         ),

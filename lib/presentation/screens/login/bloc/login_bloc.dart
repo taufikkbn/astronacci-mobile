@@ -38,7 +38,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     emit(LoginState.loading());
-    final result = await loginUseCase(username, password, 1);
+    final result = await loginUseCase(username, password);
     result.when(
       success: (data) {
         emit(LoginState.success(data));
