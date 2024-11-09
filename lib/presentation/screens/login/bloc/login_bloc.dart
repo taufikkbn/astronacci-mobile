@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:base_flutter_bloc/core/domain/usecase/auth/get_access_token_use_case.dart';
 import 'package:base_flutter_bloc/core/utils/common/helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -15,15 +16,18 @@ part 'login_bloc.freezed.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUseCase loginUseCase;
+  final GetAccessTokenUseCase getAccessTokenUseCase;
 
   LoginBloc({
     required this.loginUseCase,
+    required this.getAccessTokenUseCase,
   }) : super(LoginState.initial()) {
     on<LoginEvent>(_onLoginEvent);
   }
 
   void _onLoginEvent(LoginEvent event, Emitter<LoginState> emit) async {
     await event.when(
+      initial: () {},
       login: (username, password) => _login(
         username,
         password,

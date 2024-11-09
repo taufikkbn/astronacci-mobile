@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
             BlocListener<LoginBloc, LoginState>(
               listener: (context, state) {
                 if (state.userData != null) {
-                  context.pushNamed(Routes.home);
+                  context.goNamed(Routes.home);
                 }
               },
               child: ElevatedButton(

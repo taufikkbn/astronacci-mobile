@@ -16,4 +16,13 @@ class Routes {
 
   static const String home = "home";
   static const String homeRoute = "/home";
+
+  static const String detail = "detail";
+  static const String detailRoute = "/detail";
+
+  static const String register = "register";
+  static const String registerRoute = "/register";
+
+  static const String forgot = "forgot";
+  static const String forgotRoute = "/forgot";
 }

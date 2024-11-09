@@ -4,9 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:synchronized/synchronized.dart';
 
 import '../domain/usecase/auth/get_access_token_use_case.dart';
-import '../domain/usecase/auth/refresh_token_use_case.dart';
+import '../domain/usecase/auth/get_list_user_use_case.dart';
 import '../domain/usecase/auth/set_access_token_use_case.dart';
 import '../domain/usecase/auth/set_refresh_token_use_case.dart';
+import '../utils/common/constants.dart';
 import '../utils/di/injector.dart';
 
 class DioInterceptorsWrapper extends InterceptorsWrapper {
@@ -22,7 +23,7 @@ class DioInterceptorsWrapper extends InterceptorsWrapper {
   ) async {
     final accessToken = await injector<GetAccessTokenUseCase>().call();
 
-    options.baseUrl = "https://dummyjson.com/";
+    options.baseUrl = Constants.baseUrl;
     options.headers = {
       'Accept': 'application/json',
       'Device-Type': '1',
@@ -50,7 +51,7 @@ class DioInterceptorsWrapper extends InterceptorsWrapper {
       case 401:
         // if (path == '/auth/login') return handler.next(err);
 
-        final refreshTokenUseCase = injector<RefreshTokenUseCase>();
+        // final refreshTokenUseCase = injector<RefreshTokenUseCase>();
         final setAccessTokenUseCase = injector<SetAccessTokenUseCase>();
         final setRefreshTokenUseCase = injector<SetRefreshTokenUseCase>();
         String accessToken = await injector<GetAccessTokenUseCase>().call();
@@ -64,21 +65,21 @@ class DioInterceptorsWrapper extends InterceptorsWrapper {
               return handler.resolve(await dio.fetch(err.requestOptions));
             }
 
-            final x = await refreshTokenUseCase(1);
+            // final x = await refreshTokenUseCase(1);
 
             // Perform token refresh
-            x.when(
-              success: (data) {
-                setAccessTokenUseCase(data.accessToken!);
-                setRefreshTokenUseCase(data.refreshToken!);
-                log("REFRESHED TOKEN: $accessToken");
-              },
-              failed: (error) {
-                log("FAILED TO GET REFRESH TOKEN: ${error.message}");
-                // If refresh fails, propagate the error
-                return handler.next(err);
-              },
-            );
+            // x.when(
+            //   success: (data) {
+            //     setAccessTokenUseCase(data.accessToken!);
+            //     setRefreshTokenUseCase(data.refreshToken!);
+            //     log("REFRESHED TOKEN: $accessToken");
+            //   },
+            //   failed: (error) {
+            //     log("FAILED TO GET REFRESH TOKEN: ${error.message}");
+            //     // If refresh fails, propagate the error
+            //     return handler.next(err);
+            //   },
+            // );
 
             // Retry the original request with the new token
             log("RETRY REFRESH TOKEN: $accessToken");

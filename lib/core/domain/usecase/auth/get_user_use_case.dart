@@ -8,7 +8,7 @@ class GetUserUseCase {
 
   GetUserUseCase(this._authRepository);
 
-  DataResult<UserModel> call() async {
-    return await _authRepository.getUser();
+  DataResult<UserModel> call(String id) async {
+    return await _authRepository.getUser(id);
   }
 }

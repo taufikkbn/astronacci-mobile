@@ -24,10 +24,14 @@ class NetworkHandler {
         /* response from json */
         final dynamic data = response?.data;
         final int codeResponse = data['statusCode'] ?? statusCode;
-        final String messageResponse = data['message'] ?? message;
+
+        if (data['message'] is List) {
+          message = data['message'].join(', ');
+        } else {
+          message = data['message'] ?? message;
+        }
 
         statusCode = codeResponse;
-        message = messageResponse;
         status = NetworkStatus.setStatusFromCode(statusCode);
         break;
       case DioExceptionType.connectionTimeout:

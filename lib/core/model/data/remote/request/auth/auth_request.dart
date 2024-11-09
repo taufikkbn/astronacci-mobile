@@ -4,14 +4,12 @@ part 'auth_request.g.dart';
 
 @JsonSerializable()
 class LoginRequest {
-  String username;
+  String email;
   String password;
-  String expiresInMins;
 
   LoginRequest({
-    required this.username,
+    required this.email,
     required this.password,
-    required this.expiresInMins,
   });
 
   factory LoginRequest.fromJson(Map<String, dynamic> json) =>

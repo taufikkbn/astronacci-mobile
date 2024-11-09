@@ -18,7 +18,7 @@ class _SampleScreenState extends State<SampleScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       context.goNamed(Routes.login);
     });
   }
@@ -26,16 +26,17 @@ class _SampleScreenState extends State<SampleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Sample Screen"),
-      ),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Sample Screen',
+            Icon(
+              Icons.account_circle,
+              size: 64,
+              color: Colors.blueAccent,
             ),
+            SizedBox(height: 16),
+            CircularProgressIndicator(),
           ],
         ),
       ),
